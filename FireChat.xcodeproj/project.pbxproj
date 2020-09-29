@@ -30,6 +30,7 @@
 		FA8C172525226D1A0044C19C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA8C172225226D1A0044C19C /* GoogleService-Info.plist */; };
 		FA8C1774252288A70044C19C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C1773252288A70044C19C /* DatabaseManager.swift */; };
 		FA8C17FC2522C7230044C19C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C17FB2522C7230044C19C /* ChatViewController.swift */; };
+		FA8C18212522DC7C0044C19C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C18202522DC7C0044C19C /* StorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		FA8C172225226D1A0044C19C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA8C1773252288A70044C19C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		FA8C17FB2522C7230044C19C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		FA8C18202522DC7C0044C19C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +228,7 @@
 				FA8C16A3252195F50044C19C /* SceneDelegate.swift */,
 				FA8C17092521A0A20044C19C /* Extensions.swift */,
 				FA8C1773252288A70044C19C /* DatabaseManager.swift */,
+				FA8C18202522DC7C0044C19C /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				FA8C16A4252195F50044C19C /* SceneDelegate.swift in Sources */,
 				FA8C17FC2522C7230044C19C /* ChatViewController.swift in Sources */,
 				FA8C16EB252198A70044C19C /* PhotoViewerViewController.swift in Sources */,
+				FA8C18212522DC7C0044C19C /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
