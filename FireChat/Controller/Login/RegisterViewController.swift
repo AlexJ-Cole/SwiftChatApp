@@ -104,15 +104,6 @@ class RegisterViewController: UIViewController {
         title = "Log In"
         view.backgroundColor = .white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapRegister))
-        
-        registerButton.addTarget(self,
-                              action: #selector(registerButtonTapped),
-                              for: .touchUpInside)
-        
         emailField.delegate = self
         passwordField.delegate = self
         
@@ -188,9 +179,6 @@ class RegisterViewController: UIViewController {
                   self.alertUserLoginError()
                   return
         }
-        
-        //Firebase login
-        
             
         DatabaseManager.shared.userExits(with: email) { [weak self] exists in
             guard let strongSelf = self else { return }
@@ -199,9 +187,11 @@ class RegisterViewController: UIViewController {
                 self?.alertUserLoginError(message: "User already exists with this email address.")
                 return
             }
+            print(exists)
             
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 guard let _ = authResult, error == nil else {
+                    self?.alertUserLoginError()
                     print("error creating user")
                     return
                 }
