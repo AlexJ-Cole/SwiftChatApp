@@ -97,13 +97,27 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
+  - InputBarAccessoryView (5.2.0):
+    - InputBarAccessoryView/Core (= 5.2.0)
+  - InputBarAccessoryView/Core (5.2.0)
+  - JGProgressHUD (2.1)
   - leveldb-library (1.22)
+  - MessageKit (3.4.1):
+    - InputBarAccessoryView (~> 5.2.0)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.10)
+  - Realm (5.4.4):
+    - Realm/Headers (= 5.4.4)
+  - Realm/Headers (5.4.4)
+  - RealmSwift (5.4.4):
+    - Realm (= 5.4.4)
+  - SDWebImage (5.9.1):
+    - SDWebImage/Core (= 5.9.1)
+  - SDWebImage/Core (5.9.1)
 
 DEPENDENCIES:
   - FBSDKLoginKit
@@ -112,6 +126,10 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - GoogleSignIn
+  - JGProgressHUD
+  - MessageKit
+  - RealmSwift
+  - SDWebImage
 
 SPEC REPOS:
   trunk:
@@ -131,9 +149,15 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - InputBarAccessoryView
+    - JGProgressHUD
     - leveldb-library
+    - MessageKit
     - nanopb
     - PromisesObjC
+    - Realm
+    - RealmSwift
+    - SDWebImage
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -152,10 +176,16 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  InputBarAccessoryView: ac1bc2a11508fc2490c2322beb1d4c9f05c8e634
+  JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  MessageKit: aa047ad093f022189ed5a0d1cea04fc59f064c93
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  Realm: b845bf406e03b9c52a53e0de2394480288aa532a
+  RealmSwift: b524ff07e4e92a34f4aecbe6ed1a613979a08bb9
+  SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
 
-PODFILE CHECKSUM: d402a070a489a38e3b3e01eca2bf18728ed701b5
+PODFILE CHECKSUM: b745a56c1c2167c75925f19f7e8522b95f59202d
 
 COCOAPODS: 1.9.3

@@ -180,7 +180,7 @@ class RegisterViewController: UIViewController {
                   return
         }
             
-        DatabaseManager.shared.userExits(with: email) { [weak self] exists in
+        DatabaseManager.shared.userExists(with: email) { [weak self] exists in
             guard let strongSelf = self else { return }
             guard !exists else {
                 //User already exists

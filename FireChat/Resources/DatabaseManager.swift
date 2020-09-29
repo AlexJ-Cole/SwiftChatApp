@@ -19,7 +19,7 @@ final class DatabaseManager {
 
 extension DatabaseManager {
     
-    public func userExits(with email: String,
+    public func userExists(with email: String,
                           completion: @escaping ((Bool) -> Void)) {
         
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")

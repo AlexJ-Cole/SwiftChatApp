@@ -17,6 +17,12 @@ target 'FireChat' do
 #Google Sign In
   pod 'GoogleSignIn'
 
+#Utility
+  pod 'MessageKit'
+  pod 'JGProgressHUD'
+  pod 'RealmSwift'
+  pod 'SDWebImage'
+
   target 'FireChatTests' do
     inherit! :search_paths
     # Pods for testing
