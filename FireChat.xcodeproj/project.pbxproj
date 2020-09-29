@@ -29,6 +29,7 @@
 		FA8C172425226D1A0044C19C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA8C172225226D1A0044C19C /* GoogleService-Info.plist */; };
 		FA8C172525226D1A0044C19C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA8C172225226D1A0044C19C /* GoogleService-Info.plist */; };
 		FA8C1774252288A70044C19C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C1773252288A70044C19C /* DatabaseManager.swift */; };
+		FA8C17FC2522C7230044C19C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C17FB2522C7230044C19C /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		FA8C17092521A0A20044C19C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FA8C172225226D1A0044C19C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA8C1773252288A70044C19C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		FA8C17FB2522C7230044C19C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,7 @@
 				FA8C16EF252198B10044C19C /* VideoPlayerViewController.swift */,
 				FA8C16F4252198D10044C19C /* NewConversationViewController.swift */,
 				FA8C16F9252198D90044C19C /* ProfileViewController.swift */,
+				FA8C17FB2522C7230044C19C /* ChatViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 				FA8C16A2252195F50044C19C /* AppDelegate.swift in Sources */,
 				FA8C16FA252198D90044C19C /* ProfileViewController.swift in Sources */,
 				FA8C16A4252195F50044C19C /* SceneDelegate.swift in Sources */,
+				FA8C17FC2522C7230044C19C /* ChatViewController.swift in Sources */,
 				FA8C16EB252198A70044C19C /* PhotoViewerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
