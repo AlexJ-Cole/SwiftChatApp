@@ -11,6 +11,8 @@ import JGProgressHUD
 
 class RegisterViewController: UIViewController {
     
+    //MARK: - UI Elements
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     private let scrollView: UIScrollView = {
@@ -102,6 +104,8 @@ class RegisterViewController: UIViewController {
         return button
     }()
     
+    //MARK: - View Controller Setup
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Log In"
@@ -165,6 +169,8 @@ class RegisterViewController: UIViewController {
                                    height: 52)
     }
     
+    //MARK: - Button functionality
+    
     @objc private func registerButtonTapped() {
         
         emailField.resignFirstResponder()
@@ -224,13 +230,13 @@ class RegisterViewController: UIViewController {
                         
                         //Save profile picture to firebase
                         let fileName = chatUser.profilePictureFileName
-                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: {result in
+                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: { result in
                             switch result {
-                            case .failure(let error):
-                                print("Storage Manager error: \(error)")
                             case .success(let downloadUrl):
                                 UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
                                 print(downloadUrl)
+                            case .failure(let error):
+                                print("Storage Manager error: \(error)")
                             }
                         })
                     }
