@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseDatabase
 import MessageKit
+import AVFoundation
+import SDWebImage
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -187,16 +189,19 @@ extension DatabaseManager {
             let dateString = ChatViewController.dateFormatter.string(from: messageDate)
             
             var message = ""
-            
             switch firstMessage.kind {
             case .text(let messageText):
                 message = messageText
             case .attributedText(_):
                 break
-            case .photo(_):
-                break
-            case .video(_):
-                break
+            case .photo(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
+            case .video(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
             case .location(_):
                 break
             case .emoji(_):
@@ -301,16 +306,19 @@ extension DatabaseManager {
         let dateString = ChatViewController.dateFormatter.string(from: messageDate)
         
         var message = ""
-        
         switch firstMessage.kind {
         case .text(let messageText):
             message = messageText
         case .attributedText(_):
             break
-        case .photo(_):
-            break
-        case .video(_):
-            break
+        case .photo(let mediaItem):
+            if let targetUrlString = mediaItem.url?.absoluteString {
+                message = targetUrlString
+            }
+        case .video(let mediaItem):
+            if let targetUrlString = mediaItem.url?.absoluteString {
+                message = targetUrlString
+            }
         case .location(_):
             break
         case .emoji(_):
@@ -324,7 +332,6 @@ extension DatabaseManager {
         case .custom(_):
             break
         }
-        
         guard let myEmail = UserDefaults.standard.value(forKey: "email") as? String else {
             completion(false)
             return
@@ -394,7 +401,7 @@ extension DatabaseManager {
     
     ///Fetches and returns all messages for conversation with passed in ID
     public func getAllMessagesForConversation(with id: String, completion: @escaping (Result<[Message], Error>) -> Void) {
-        database.child("\(id)/messages").observe(.value, with: { snapshot in
+        database.child("\(id)/messages").observe(.value, with: { [weak self] snapshot in
             guard let value = snapshot.value as? [[String: Any]] else {
                 completion(.failure(DatabaseError.failedToFetch))
                 return
@@ -426,6 +433,18 @@ extension DatabaseManager {
                                       size: CGSize(width: 300, height: 300))
                     
                     kind = .photo(media)
+                } else if type == "video" {
+                    guard let videoUrl = URL(string: content),
+                          let placeholder = UIImage(systemName: "play.circle") else {
+                        return nil
+                    }
+                    
+                    let media = Media(url: videoUrl,
+                                      image: nil,
+                                      placeholderImage: placeholder,
+                                      size: CGSize(width: 300, height: 300))
+                    
+                    kind = .video(media)
                 } else {
                     kind = .text(content)
                 }
@@ -480,8 +499,10 @@ extension DatabaseManager {
                 if let targetUrlString = mediaItem.url?.absoluteString {
                     message = targetUrlString
                 }
-            case .video(_):
-                break
+            case .video(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
             case .location(_):
                 break
             case .emoji(_):

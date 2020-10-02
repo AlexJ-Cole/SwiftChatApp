@@ -32,6 +32,7 @@
 		FA8C17FC2522C7230044C19C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C17FB2522C7230044C19C /* ChatViewController.swift */; };
 		FA8C18212522DC7C0044C19C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C18202522DC7C0044C19C /* StorageManager.swift */; };
 		FA8C18262525672D0044C19C /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C18252525672D0044C19C /* ConversationTableViewCell.swift */; };
+		FA8C182B2527A31F0044C19C /* NewConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C182A2527A31F0044C19C /* NewConversationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		FA8C17FB2522C7230044C19C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		FA8C18202522DC7C0044C19C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		FA8C18252525672D0044C19C /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
+		FA8C182A2527A31F0044C19C /* NewConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				FA8C16D9252197A00044C19C /* Storyboards */,
 				FA8C16AA252195F60044C19C /* Assets.xcassets */,
 				FA8C18252525672D0044C19C /* ConversationTableViewCell.swift */,
+				FA8C182A2527A31F0044C19C /* NewConversationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA8C16E1252198740044C19C /* LoginViewController.swift in Sources */,
+				FA8C182B2527A31F0044C19C /* NewConversationCell.swift in Sources */,
 				FA8C1774252288A70044C19C /* DatabaseManager.swift in Sources */,
 				FA8C16E6252198850044C19C /* RegisterViewController.swift in Sources */,
 				FA8C16F5252198D10044C19C /* NewConversationViewController.swift in Sources */,
