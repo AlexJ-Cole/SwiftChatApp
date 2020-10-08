@@ -7,9 +7,9 @@
 
 import Foundation
 import UIKit
+import MessageKit
 
 extension UIView {
-    
     public var width: CGFloat {
         return self.frame.size.width
     }
@@ -36,5 +36,33 @@ extension UIView {
 }
 
 extension Notification.Name {
+    /// Notification when user logs in
     static let didLoginNotification = Notification.Name("didLoginNotification")
+}
+
+extension MessageKind {
+    var messageKindString: String {
+        switch self {
+        case .text(_):
+            return "text"
+        case .attributedText(_):
+            return "attributedText"
+        case .photo(_):
+            return "photo"
+        case .video(_):
+            return "video"
+        case .location(_):
+            return "location"
+        case .emoji(_):
+            return "emoji"
+        case .audio(_):
+            return "audio"
+        case .contact(_):
+            return "contact"
+        case .linkPreview(_):
+            return "linkPreview"
+        case .custom(_):
+            return "custom"
+        }
+    }
 }

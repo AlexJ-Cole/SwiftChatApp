@@ -63,15 +63,15 @@ class ConversationTableViewCell: UITableViewCell {
     }
     
     public func configure(with model: Conversation) {
-        self.userMessageLabel.text = model.latestMessage.text
-        self.userNameLabel.text = model.name
+        userMessageLabel.text = model.latestMessage.text
+        userNameLabel.text = model.name
         
         let path = "images/\(model.otherUserEmail)_profile_picture.png"
         StorageManager.shared.downloadURL(for: path, completion: { result in
             switch result {
             case .success(let url):
-                DispatchQueue.main.async {
-                    self.userImageView.sd_setImage(with: url, completed: nil)
+                DispatchQueue.main.async { [weak self] in
+                    self?.userImageView.sd_setImage(with: url, completed: nil)
                 }
             case .failure(let error):
                 print("failed to get download url for profile picture - \(error)")

@@ -8,7 +8,8 @@
 import UIKit
 import JGProgressHUD
 
-class NewConversationViewController: UIViewController {
+/// Controller to present search page and allow users to start new conversations, presented when compost button is tapped in `ConversationsViewController`
+final class NewConversationViewController: UIViewController {
     
     public var completion: (((SearchResult) -> Void))?
     
@@ -52,7 +53,7 @@ class NewConversationViewController: UIViewController {
         tableView.dataSource = self
         
         searchBar.delegate = self
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.topItem?.titleView = searchBar
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                             style: .done,
@@ -74,6 +75,8 @@ class NewConversationViewController: UIViewController {
                                       height: 200)
     }
 }
+
+// MARK: - UITableView Delegates
 
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -103,6 +106,8 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     }
 }
 
+// MARK: - UISearchBarDelegate
+
 extension NewConversationViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else {
@@ -114,9 +119,10 @@ extension NewConversationViewController: UISearchBarDelegate {
         results.removeAll()
         spinner.show(in: view)
         
-        self.searchUsers(query: text)
+        searchUsers(query: text)
     }
     
+    /// Checks if user info has already been fetched from DB and fetches if it hasn't. Then, calls `filterUsers(with:)` on the fetched data
     func searchUsers(query: String) {
         //check if our array of users has already been fetched 
         if hasFetched {
@@ -138,6 +144,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         
     }
     
+    /// Removes current user from search results and returns any other users who's name is prefixed with search term
     func filterUsers(with term: String) {
         //update UI - show results / no results label
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String,
@@ -145,12 +152,10 @@ extension NewConversationViewController: UISearchBarDelegate {
             return
         }
         
-        let safeEmail = DatabaseManager.safeEmail(currentUserEmail)
+        spinner.dismiss()
         
-        self.spinner.dismiss()
-        
-        let results: [SearchResult] = self.users.filter({
-            guard let email = $0["email"], email != safeEmail else {
+        let results: [SearchResult] = users.filter({
+            guard let email = $0["email"], email != currentUserEmail else {
                 return false
             }
             
@@ -174,17 +179,12 @@ extension NewConversationViewController: UISearchBarDelegate {
     
     func updateUI() {
         if results.isEmpty {
-            self.noResultsLabel.isHidden = false
-            self.tableView.isHidden = true
+            noResultsLabel.isHidden = false
+            tableView.isHidden = true
         } else {
-            self.noResultsLabel.isHidden = true
-            self.tableView.isHidden = false
-            self.tableView.reloadData()
+            noResultsLabel.isHidden = true
+            tableView.isHidden = false
+            tableView.reloadData()
         }
     }
-}
-
-struct SearchResult {
-    let name: String
-    let email: String
 }

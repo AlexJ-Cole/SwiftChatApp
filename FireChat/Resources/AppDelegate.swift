@@ -11,7 +11,7 @@ import FBSDKCoreKit
 import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(
         _ application: UIApplication,
@@ -50,7 +50,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         return GIDSignIn.sharedInstance().handle(url)
     }
-    
+}
+
+//MARK: - GIDSignInDelegate
+
+extension AppDelegate: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         guard error == nil else {
             if let error = error {
@@ -69,7 +73,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 return
         }
         
-        UserDefaults.standard.set(email, forKey: "email")
+        let safeEmail = DatabaseManager.safeEmail(email)
+        
+        UserDefaults.standard.set(safeEmail, forKey: "email")
+        UserDefaults.standard.set(email, forKey: "dirtyEmail")
         UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
         
         DatabaseManager.shared.userExists(with: email) { exists in
@@ -133,5 +140,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         print("Google user was disconnected")
     }
-
 }

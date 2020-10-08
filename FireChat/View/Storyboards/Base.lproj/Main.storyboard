@@ -59,7 +59,7 @@
         <scene sceneID="giz-EZ-ypz">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Qcz-WR-ihG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chats" id="fYD-vU-WtY"/>
+                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" selectedImage="message.fill" id="fYD-vU-WtY"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="RSo-Ml-sEh">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -78,7 +78,7 @@
         <scene sceneID="XSV-xp-qJr">
             <objects>
                 <navigationController id="TRB-bj-ZzY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="AU8-8S-a8f"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.circle" catalog="system" selectedImage="person.circle.fill" id="AU8-8S-a8f"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="cka-zx-4zL">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -97,6 +97,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="oaD-Mq-fEl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rBT-Gb-2AZ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -111,6 +112,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <image name="message.fill" catalog="system" width="128" height="113"/>
+        <image name="person.circle" catalog="system" width="128" height="121"/>
+        <image name="person.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

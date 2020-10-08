@@ -8,7 +8,8 @@
 import UIKit
 import SDWebImage
 
-class PhotoViewerViewController: UIViewController {
+///Controller to display photos sent as attachments in a conversation, presented when a photo is tapped on in `ChatViewController`
+final class PhotoViewerViewController: UIViewController {
     
     private var url: URL
     

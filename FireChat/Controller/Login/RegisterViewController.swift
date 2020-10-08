@@ -9,9 +9,8 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
-class RegisterViewController: UIViewController {
-    
-    //MARK: - UI Elements
+/// Controller to display registration fields for users to create new account
+final class RegisterViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -32,7 +31,7 @@ class RegisterViewController: UIViewController {
         field.placeholder = "Email Address..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         return field
     }()
     
@@ -47,7 +46,7 @@ class RegisterViewController: UIViewController {
         field.placeholder = "First Name..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         return field
     }()
     
@@ -62,7 +61,7 @@ class RegisterViewController: UIViewController {
         field.placeholder = "Last Name..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         return field
     }()
     
@@ -77,7 +76,7 @@ class RegisterViewController: UIViewController {
         field.placeholder = "Password..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         field.isSecureTextEntry = true
         return field
     }()
@@ -104,12 +103,12 @@ class RegisterViewController: UIViewController {
         return button
     }()
     
-    //MARK: - View Controller Setup
+    //MARK: - VC Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Log In"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -180,21 +179,27 @@ class RegisterViewController: UIViewController {
         
         guard let firstName = firstNameField.text,
               let lastName = lastNameField.text,
-              let email = emailField.text,
+              let rawEmail = emailField.text?.lowercased(),
               let password = passwordField.text,
-              !email.isEmpty,
+              !rawEmail.isEmpty,
               !password.isEmpty,
               !firstName.isEmpty,
               !lastName.isEmpty,
               password.count >= 6 else {
-                  self.alertUserLoginError()
+                  alertUserLoginError()
                   return
         }
         
+        let email = DatabaseManager.safeEmail(rawEmail)
+        
         spinner.show(in: view)
         
+        //Set UserDefaults for name & email
+        UserDefaults.standard.setValue(email, forKey: "email")
+        UserDefaults.standard.setValue(rawEmail, forKey: "dirtyEmail")
+        UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
+        
         //Firebase login
-            
         DatabaseManager.shared.userExists(with: email) { [weak self] exists in
             guard let strongSelf = self else { return }
             
@@ -209,7 +214,7 @@ class RegisterViewController: UIViewController {
             }
             print(exists)
             
-            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            FirebaseAuth.Auth.auth().createUser(withEmail: rawEmail, password: password) { authResult, error in
                 guard let _ = authResult, error == nil else {
                     self?.alertUserLoginError()
                     print("error creating user")
@@ -264,9 +269,10 @@ class RegisterViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
 
 extension RegisterViewController: UITextFieldDelegate {
-    
+    /// Handles return button being pressed on keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
             passwordField.becomeFirstResponder()
@@ -279,8 +285,9 @@ extension RegisterViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
+
 extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func presentPhotoActionSheet() {
         let ac = UIAlertController(title: "Profile Picture",
                                    message: "How would you like to select a picture?",
@@ -320,7 +327,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
             return
         }
         
-        self.imageView.image = selectedImage
+        imageView.image = selectedImage
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

@@ -11,7 +11,8 @@ import FBSDKLoginKit
 import GoogleSignIn
 import JGProgressHUD
 
-class LoginViewController: UIViewController {
+/// Controller to display login options, users are sent here if no login is detected on app launch
+final class LoginViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -32,7 +33,7 @@ class LoginViewController: UIViewController {
         field.placeholder = "Email Address..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         return field
     }()
     
@@ -47,14 +48,14 @@ class LoginViewController: UIViewController {
         field.placeholder = "Password..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         field.isSecureTextEntry = true
         return field
     }()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Logo")
+        imageView.image = UIImage(named: "logo-1")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -83,6 +84,8 @@ class LoginViewController: UIViewController {
     
     private var loginObserver: NSObjectProtocol?
     
+    // MARK: - VC Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,7 +96,7 @@ class LoginViewController: UIViewController {
         }
         
         title = "Log In"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
                                                             style: .done,
@@ -162,17 +165,22 @@ class LoginViewController: UIViewController {
                                      height: 52)
     }
     
+    //MARK: - Tap handlers
+    
     @objc private func loginButtonTapped() {
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         
+        //Validation
         guard let email = emailField.text, let password = passwordField.text, !email.isEmpty, !password.isEmpty, password.count >= 6 else {
-            self.alertUserLoginError()
+            alertUserLoginError()
             return
         }
         
+        //Loading spinner
         spinner.show(in: view)
         
+        //Firebase login
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
             
@@ -187,7 +195,7 @@ class LoginViewController: UIViewController {
             
             let user = result.user
             
-            let safeEmail = DatabaseManager.safeEmail(email)
+            let safeEmail = DatabaseManager.safeEmail(email).lowercased()
             DatabaseManager.shared.getDataFor(path: safeEmail, completion: { result in
                 switch result {
                 case .success(let data):
@@ -197,14 +205,17 @@ class LoginViewController: UIViewController {
                         return
                     }
                     UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+                    print(firstName, lastName)
                 case .failure(let error):
                     print("Failed to fetch user's full name - \(error)")
                 }
             })
             
-            UserDefaults.standard.set(email, forKey: "email")
+            UserDefaults.standard.set(safeEmail, forKey: "email")
+            UserDefaults.standard.set(email, forKey: "dirtyEmail")
             
             print("Logged in user: \(user)")
+            NotificationCenter.default.post(name: .didLoginNotification, object: nil)
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         }
     }
@@ -222,9 +233,10 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
-    
+    //Handles return button being tapped on keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
             passwordField.becomeFirstResponder()
@@ -237,7 +249,10 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - Facebook login button delegate
+
 extension LoginViewController: LoginButtonDelegate {
+    //Need to conform, will not be using this method
     func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
         //nope
     }
@@ -273,7 +288,10 @@ extension LoginViewController: LoginButtonDelegate {
                 return
             }
             
-            UserDefaults.standard.set(email, forKey: "email")
+            let safeEmail = DatabaseManager.safeEmail(email)
+            
+            UserDefaults.standard.set(safeEmail, forKey: "email")
+            UserDefaults.standard.set(email, forKey: "dirtyEmail")
             UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
             
             DatabaseManager.shared.userExists(with: email) { exists in
@@ -327,6 +345,7 @@ extension LoginViewController: LoginButtonDelegate {
                 }
                 
                 print("successfully logged in with facebook")
+                NotificationCenter.default.post(name: .didLoginNotification, object: nil)
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
         }

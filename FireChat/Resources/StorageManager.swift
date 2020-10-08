@@ -8,23 +8,29 @@
 import Foundation
 import FirebaseStorage
 
+/// Allows you to get, fetch, and upload files to Firebase Storage
 final class StorageManager {
     static let shared = StorageManager()
+    
+    private init() {}
     
     private let storage = Storage.storage().reference()
     
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
     
-    ///Uploads picture to Firebase storage and returns a completion with URL String to download
+    ///Uploads picture to Firebase storage and returns string representing its download URL
+    /// - Parameter data: Data of picture to upload, preferably pngData
+    /// - Parameter fileName: Name of file to save image to, needs to be unique
+    /// - Parameter completion: Async closure to return result holding string representing download URL for image
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
-        storage.child("images/\(fileName)").putData(data, metadata: nil) { metaData, error in
+        storage.child("images/\(fileName)").putData(data, metadata: nil) { [weak self] metaData, error in
             guard error == nil else {
                 print("Failed to upload data to firebase for profile picture")
                 completion(.failure(StorageErrors.failedToUpload))
                 return
             }
             
-            self.storage.child("images/\(fileName)").downloadURL() { url, error in
+            self?.storage.child("images/\(fileName)").downloadURL() { url, error in
                 guard let url = url else {
                     print("Failed to get download url")
                     completion(.failure(StorageErrors.failedToGetDownloadURL))
@@ -38,7 +44,10 @@ final class StorageManager {
         }
     }
     
-    ///Upload image that will be sent in conversation message
+    ///Upload image that will be sent in a conversation message
+    /// - Parameter data: Image data, preferably pngData
+    /// - Parameter fileName: Name of file to save image to, needs to be unique
+    /// - Parameter completion: Async closure to return result holding string representing download URL for image
     public func uploadMessagePhoto(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("message_images/\(fileName)").putData(data, metadata: nil) { [weak self] metaData, error in
             guard error == nil else {
@@ -62,6 +71,9 @@ final class StorageManager {
     }
     
     ///Upload video that will be sent in conversation message
+    /// - Parameter fileUrl: URL pointing to target video that is to be uploaded
+    /// - Parameter fileName: Name of file to save video to, needs to be unique
+    /// - Parameter completion: Async closure returning result holding string representing download URL for video
     public func uploadMessageVideo(with fileUrl: URL, fileName: String, completion: @escaping UploadPictureCompletion) {
         //Convert video URL to data object since ios13 changed fileURLs for videos selecetd using library
         //  This is only necessary in order to upload videos from the photo library, camera functions fine when we
@@ -101,6 +113,9 @@ final class StorageManager {
         case failedToGetDownloadURL
     }
     
+    /// Fetches download URL for data at `path`
+    /// - Parameter path: Path pointing to target data
+    /// - Parameter completion: Async closure to return result holding the download URL for given path
     public func downloadURL(for path: String, completion: @escaping (Result<URL, Error>) -> Void) {
         let reference = storage.child(path)
         reference.downloadURL(completion: { url, error in
